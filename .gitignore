@@ -5,3 +5,4 @@ mongoDB/users.js
 *.key
 *.crt
 *.pem
+npm-debug.log
