@@ -1,33 +1,30 @@
 {
   "name": "rutilus-nodejs-aws",
-
-  "version": "0.0.1",
-
+  "version": "0.0.2",
   "description": "",
-
   "main": "index.js",
-
   "scripts": {
     "start": "node index.js"
   },
-
   "keywords": [],
-
   "repository": {
     "type": "git",
     "url": "https://github.com/gmrutilus/rutilus-nodejs-aws"
   },
-
-  "contributors": [{
-    "name": "Henrique Coelho",
-    "email": "henriquesc@gmail.com",
-    "url": "http://hcoelho.com"
-  }, {
-    "name": "Matthew Welke",
-    "email": "mattwelke@gmail.com",
-    "url": "http://mattwelke.com/"
-  }, {
-    "name": "Andrew Smith",
-    "url": "http://littlesrv.ca"
-  }]
+  "contributors": [
+    {
+      "name": "Henrique Coelho",
+      "email": "henriquesc@gmail.com",
+      "url": "http://hcoelho.com"
+    },
+    {
+      "name": "Matthew Welke",
+      "email": "mattwelke@gmail.com",
+      "url": "http://mattwelke.com/"
+    },
+    {
+      "name": "Andrew Smith",
+      "url": "http://littlesrv.ca"
+    }
+  ]
 }
