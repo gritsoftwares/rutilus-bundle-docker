@@ -1,6 +1,6 @@
 {
   "name": "rutilus-nodejs-aws",
-  "version": "0.1.0",
+  "version": "0.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
