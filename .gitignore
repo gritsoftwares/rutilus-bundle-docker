@@ -1,0 +1,7 @@
+.idea
+client.min.js
+node_modules
+mongoDB/users.js
+*.key
+*.crt
+*.pem
