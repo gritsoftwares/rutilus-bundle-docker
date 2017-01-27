@@ -26,5 +26,9 @@
       "name": "Andrew Smith",
       "url": "http://littlesrv.ca"
     }
-  ]
+  ],
+  "dependencies": {
+    "rutilus-apiheartbeat-node": "0",
+    "rutilus-logger-node": "0"
+  }
 }
