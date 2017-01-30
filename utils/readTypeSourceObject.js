@@ -2,10 +2,15 @@ const readFromFile = require('./readFromFile');
 const getEnvVariable = require('./getEnvVariable');
 
 /**
- * @param {String} type
- * @param {String} source
+ * @param {Object|String} c
  */
-module.exports = function({ type, source }) {
+module.exports = function(c) {
+
+    if (typeof c !== 'object') {
+        return c;
+    }
+
+    const { type, source } = c;
 
     switch(type) {
 
