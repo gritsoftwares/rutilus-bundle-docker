@@ -5,6 +5,7 @@ const readLoggerFile = require('./utils/readLoggerFile');
 
 const enableHeartbeat = false;
 const enableLoggerApi = false;
+const enableAnalyticsApi = true;
 const httpsKeys = {};
 const databaseConfig = {};
 
@@ -25,14 +26,6 @@ if (enableHeartbeat) {
 if (enableLoggerApi) {
     const LoggerApi = require('rutilus-logger-node');
 
-    const rateLimit = {
-        windowMs: 60 * 1000, // 1 minute
-        delayAfter: 1000, // 300 connections
-        delayMs: 0.5 * 1000, // 0.5 seconds
-        max: 1000, // 1000 maximum connections
-        handler: function () { throw 429; }
-    };
-
     const loggerConfig = {
         console: {
             level: 'silly',
@@ -49,8 +42,35 @@ if (enableLoggerApi) {
         httpsKeys,
         databaseAddress: databaseConfig.fullAddress,
         maxConnectionTries: 10,
-        rateLimit,
+        rateLimit: config.rateLimit.logger,
         loggerConfig,
-        extraInformation: config.extraInformation.logger
+        extraInformation: config.extraInformation
+    });
+}
+
+if (enableAnalyticsApi) {
+    const AnalyticsApi = require('../rutilus-analytics-node-js');
+
+    const loggerConfig = {
+        console: {
+            level: 'silly',
+        },
+        file: {
+            level: 'warn',
+            filename: readLoggerFile(config.logFiles.analyticsApi)
+        }
+    };
+
+    AnalyticsApi({
+        port: 3000,
+        useHttps: config.useHTTPS,
+        httpsKeys,
+        databaseAddress: databaseConfig.fullAddress,
+        rateLimit: config.rateLimit.analytics,
+        loggerConfig,
+        affinityTool: config.affinityTool,
+        userAccounts: config.dashboard.userAccounts,
+        addresses: config.addresses,
+        extraInformation: config.extraInformation
     });
 }
