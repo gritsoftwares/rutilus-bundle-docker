@@ -18,13 +18,13 @@ if (config.useHTTPS) {
 writeDatabaseConfig(config.database, databaseConfig);
 
 if (enableHeartbeat) {
-    const APIHeartbeat = require('../rutilus-apiheartbeat-node');
+    const APIHeartbeat = require('rutilus-apiheartbeat-node');
 
     APIHeartbeat(config.heartbeatAddresses, 5000);
 }
 
 if (enableLoggerApi) {
-    const LoggerApi = require('../rutilus-logger-node');
+    const LoggerApi = require('rutilus-logger-node');
 
     const loggerConfig = {
         console: {
