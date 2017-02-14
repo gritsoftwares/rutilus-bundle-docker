@@ -1,81 +1,74 @@
+const ENV = process.env;
+
 module.exports = {
-    useHTTPS: false,
+    useHttps: ENV.RUTILUS_USE_HTTPS || false,
+
+    ports: {
+        logger: ENV.RUTILUS_LOGGER_PORT || 8080,
+        analytics: ENV.RUTILUS_ANALYTICS_PORT || 3000
+    },
 
     addresses: {
-        analytics: 'http://www.api2.com:3000/',
+        database: (
+            ENV.MONGOCONTAINER_PORT &&
+            ENV.MONGOCONTAINER_PORT
+                .replace('tcp', 'mongodb')
+                .replace('://', '://oslo:EngWulDb_esD@') +
+                '/production?authenticationMechanism=DEFAULT&authSource=admin'
+        ) || 'mongodb://localhost:27017',
+        analytics: ENV.RUTILUS_ANALYTICS_ADDRESS || 'http://localhost:3000',
     },
+
+    // optional (depends on useHttps)
+    httpsKeys: {
+        key: ENV.RUTILUS_HTTPS_KEY || '',
+        cert: ENV.RUTILUS_HTTPS_CERT || '',
+        ca: ENV.RUTILUS_HTTPS_CA || ''
+    },
+
 
     heartbeatAddresses: [
         {
-            title: 'My API 1',
-            address: 'https://www.api1.com/',
+            title: 'Logger API',
+            address: 'https://eceps.engineering.com',
             useHttps: true,
             logDirectory: '/logs',
-            logFile: 'api1.log',
+            logFile: 'logger.log',
             timeSpan: 10000,
             maxFileSizeBytes: 1000000,
             crashWhenFail: true,
         }, {
-            title: 'My API 2',
-            address: 'http://www.api2.com:3000/',
-            useHttps: false,
-            logDirectory: '/logs/api2',
-            logFile: 'api2.log',
-            timeSpan: 60000,
+            title: 'Analytics API',
+            address: 'https://eceps.engineering.com:3000/ping',
+            useHttps: true,
+            logDirectory: '/logs',
+            logFile: 'analytics.log',
+            timeSpan: 10000,
+            maxFileSizeBytes: 1000000,
+            crashWhenFail: true,
         }
     ],
 
-    https: {
-        key: {
-            type: 'file',
-            source: 'key.key'
-        },
-
-        cert: {
-            type: 'file',
-            source: 'cert.crt'
-        },
-
-        ca: {
-            type: 'file',
-            source: 'ca.crt'
-        }
-    },
-
-    database: {
-        host: {
-            type: 'env',
-            source: 'DATABASE_ADDRESS'
-        },
-        authentication: {
-            username: {
-                type: 'string',
-                source: 'username'
+    errorLog: {
+        logger: {
+            console: {
+                level: 'info'
             },
-            password: {
-                type: 'string',
-                source: 'password'
-            },
-            mechanism: {
-                type: 'string',
-                source: 'DEFAULT'
-            },
-            source: {
-                type: 'string',
-                source: 'admin'
+            file: {
+                level: 'info',
+                file: 'loggerApi.log'
             }
-        }
-    },
-
-    logFiles: {
-        loggerApi: {
-            type: 'string',
-            source: 'loggerApi.log'
         },
-        analyticsApi: {
-            type: 'string',
-            source: 'analyticsApi.log'
-        }
+
+        analytics: {
+            console: {
+                level: 'info'
+            },
+            file: {
+                level: 'info',
+                file: 'analyticsApi.log'
+            }
+        },
     },
 
     extraInformation: [
@@ -120,30 +113,33 @@ module.exports = {
         }
     ],
 
-    rateLimit: {
-        logger: {
-            windowMs: 60 * 1000, // 1 minute
-            delayAfter: 1000, // 300 connections
-            delayMs: 0.5 * 1000, // 0.5 seconds
-            max: 1000, // 1000 maximum connections
-        },
-        analytics: {
-            windowMs: 15 * 60 * 1000, // 15 minutes
-            max: 2000, // Limit each IP to 1000 requests per windowMs
-        }
+    // optional
+    // objects that provide settings for rate limiting
+    rateLimits: {
+        // Use logger: and/or analytics: to specify rate
+        // limiters for each or all: for every module
+        all: (ENV.RUTILUS_RATE_LIMIT)
+            ? JSON.parse(ENV.RUTILUS_RATE_LIMIT)
+            : {
+                  windowMs: 1000,
+                  delayAfter: 1000,
+                  delayMs: 1000,
+                  max: 1000
+              }
     },
 
     affinityTool: {
-        cacheTime: 1,
-        minHitTimeOnPage: 40
+        cacheTime: ENV.RUTILUS_CACHE_TIME || 9001,
+        minHitTimeOnPage: ENV.RUTILUS_MIN_HIT_TIME || 2000
     },
 
-    dashboard: {
-        userAccounts: [{
-            username: 'admin',
-            password: '$2a$10$cSJHqttdnVCEDXZEafyMKuSj.Ps9KgJvkKHUFkTzHfxZgfCPDlwVK' // Password123!
-        }]
-    }
+    transporter: {
+        service: 'gmail',
+        auth: {
+            user: 'henriquesc@gmail.com',
+            pass: '{tNS}138gOE'
+        }
+    },
 
 };
 
