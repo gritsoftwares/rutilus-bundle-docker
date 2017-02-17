@@ -1,11 +1,26 @@
+const fs = require('fs');
 const ENV = process.env;
 
+// Rutilus URL (without a / at the end)
+const rutilusAddress = 'http://yoursite.com';
+
+// Configuration for the database
+const dbUsername = 'dbUsername'; // Username
+const dbPassword = 'dbPassword'; // Password
+const dbDatabase = 'production'; // Database
+const dbAuthMechanism = 'DEFAULT'; // Authentication mechanism (default: DEFAULT)
+const dbAuthSource = 'admin'; // Authentication source database
+
+function readKeyFile(file) {
+    return fs.readFileSync(`${__dirname}/keys/${file}`).toString();
+}
+
 module.exports = {
-    useHttps: ENV.RUTILUS_USE_HTTPS || false,
+    useHttps: false,
 
     ports: {
-        logger: ENV.RUTILUS_LOGGER_PORT || 8080,
-        analytics: ENV.RUTILUS_ANALYTICS_PORT || 3000
+        logger: 8080,
+        analytics: 3000
     },
 
     addresses: {
@@ -13,24 +28,24 @@ module.exports = {
             ENV.MONGOCONTAINER_PORT &&
             ENV.MONGOCONTAINER_PORT
                 .replace('tcp', 'mongodb')
-                .replace('://', '://oslo:EngWulDb_esD@') +
-                '/production?authenticationMechanism=DEFAULT&authSource=admin'
+                .replace('://', `://${$dbUsername}:${dbPassword}@`) +
+                `/${dbDatabase}?authenticationMechanism=${dbAuthMechanism}&authSource=${dbAuthSource}`
         ) || 'mongodb://localhost:27017',
-        analytics: ENV.RUTILUS_ANALYTICS_ADDRESS || 'http://localhost:3000',
+        analytics: `${rutilusAddress}:3000`,
     },
 
     // optional (depends on useHttps)
     httpsKeys: {
-        key: ENV.RUTILUS_HTTPS_KEY || '',
-        cert: ENV.RUTILUS_HTTPS_CERT || '',
-        ca: ENV.RUTILUS_HTTPS_CA || ''
+        key:  readKeyFile('key.key'),
+        cert: readKeyFile('cert.crt'),
+        ca:   readKeyFile('ca.crt'),
     },
 
 
     heartbeatAddresses: [
         {
             title: 'Logger API',
-            address: 'https://eceps.engineering.com',
+            address: `${rutilusAddress}`,
             useHttps: true,
             logDirectory: '/logs',
             logFile: 'logger.log',
@@ -39,7 +54,7 @@ module.exports = {
             crashWhenFail: true,
         }, {
             title: 'Analytics API',
-            address: 'https://eceps.engineering.com:3000/ping',
+            address: `${rutilusAddress}:3000/ping`,
             useHttps: true,
             logDirectory: '/logs',
             logFile: 'analytics.log',
@@ -71,114 +86,28 @@ module.exports = {
         },
     },
 
-    extraInformation: [
-        {
-            label: 'First name',
-            fieldName: 'firstName',
-            type: 'String',
-            target: 'users',
-            inAffinityUser: true,
-            inAffinityPersona: false,
-            inAffinityProfile: false,
-        },
-        {
-            label: 'Last name',
-            fieldName: 'lastName',
-            type: 'String',
-            target: 'users',
-            inAffinityUser: true,
-            inAffinityPersona: false,
-            inAffinityProfile: false,
+    extraInformation: [],
 
-        },
-        {
-            label: 'Email',
-            fieldName: 'email',
-            type: 'String',
-            target: 'users',
-            inAffinityUser: true,
-            inAffinityPersona: false,
-            inAffinityProfile: false,
-
-        },
-        {
-            label: 'Job',
-            fieldName: 'job',
-            type: 'String',
-            target: 'users',
-            inAffinityUser: true,
-            inAffinityPersona: true,
-            inAffinityProfile: true,
-
-        }
-    ],
-
-    // optional
-    // objects that provide settings for rate limiting
     rateLimits: {
-        // Use logger: and/or analytics: to specify rate
-        // limiters for each or all: for every module
-        all: (ENV.RUTILUS_RATE_LIMIT)
-            ? JSON.parse(ENV.RUTILUS_RATE_LIMIT)
-            : {
-                  windowMs: 1000,
-                  delayAfter: 1000,
-                  delayMs: 1000,
-                  max: 1000
-              }
+        all: {
+            windowMs: 60 * 1000, // 1 minute
+            delayAfter: 1000, // 300 connections
+            delayMs: 0.5 * 1000, // 0.5 seconds
+            max: 1000, // 1000 maximum connections
+        }
     },
 
     affinityTool: {
-        cacheTime: ENV.RUTILUS_CACHE_TIME || 9001,
-        minHitTimeOnPage: ENV.RUTILUS_MIN_HIT_TIME || 2000
+        cacheTime: 86400000,
+        minHitTimeOnPage: 2000
     },
 
     transporter: {
-        service: 'gmail',
+        service: ENV.RUTILUS_TRANSPORTER_SERVICE || '',
         auth: {
-            user: 'henriquesc@gmail.com',
-            pass: '{tNS}138gOE'
+            user: ENV.RUTILUS_TRANSPORTER_EMAIL || '',
+            pass: ENV.RUTILUS_TRANSPORTER_PASSWORD || '',
         }
     },
 
 };
-
-/*
-extraInformation
-
-label: the display name of the field
-fieldName: name of the field in the database
-type: type of the field (read below)
-target: target collection for the field
-
-
-Optional field:
-- weight
- 0 (or undefined) - Light
- 1 - Medium
- 2 - Heavy
-
-
-accepted types:
-
-- Number
-- Boolean
-- ObjectArray
-- Date
-- Object
-- String
-
-Changes in the logger api to add one:
-- utils/parsing.js fromExtra() - Add a new case
-
-Changes in the analytics api to add one:
-- utils/parsing.js getMongooseType() - Add a new case
-- schema/misc/filter.js - Add a new case in the function
-- schema/misc/join.js - Add a new case in the function
-
-Important: if the target is 'users', we have optional fields:
-- inAffinityUser
-- inAffinityPersona
-- inAffinityProfile
-If set to true, it will be used by the affinity tool to make the 'user', 'persona', and 'profile'
- */
