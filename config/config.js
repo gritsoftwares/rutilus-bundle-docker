@@ -16,7 +16,7 @@ function readKeyFile(file) {
 }
 
 module.exports = {
-    useHttps: false,
+    useHttps: ([true, 'true'].includes(ENV.RUTILUS_USING_HTTPS)) || false,
 
     ports: {
         logger: 8080,
@@ -31,7 +31,7 @@ module.exports = {
                 .replace('://', `://${$dbUsername}:${dbPassword}@`) +
                 `/${dbDatabase}?authenticationMechanism=${dbAuthMechanism}&authSource=${dbAuthSource}`
         ) || 'mongodb://localhost:27017',
-        analytics: `${rutilusAddress}:3000`,
+        analytics: ENV.RUTILUS_ANALYTICS_ADDRESS || `${rutilusAddress}:3000`,
     },
 
     // optional (depends on useHttps)
