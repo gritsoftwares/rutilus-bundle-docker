@@ -7,16 +7,13 @@ const rutilusAddress = 'http://yoursite.com';
 // Configuration for the database
 const dbUsername = 'dbUsername'; // Username
 const dbPassword = 'dbPassword'; // Password
-const dbDatabase = 'production'; // Database
-const dbAuthMechanism = 'DEFAULT'; // Authentication mechanism (default: DEFAULT)
-const dbAuthSource = 'admin'; // Authentication source database
 
 function readKeyFile(file) {
     return fs.readFileSync(`${__dirname}/keys/${file}`).toString();
 }
 
 module.exports = {
-    useHttps: ([true, 'true'].includes(ENV.RUTILUS_USING_HTTPS)) || false,
+    useHttps: false,
 
     ports: {
         logger: 8080,
@@ -24,45 +21,16 @@ module.exports = {
     },
 
     addresses: {
-        database: (
-            ENV.MONGOCONTAINER_PORT &&
-            ENV.MONGOCONTAINER_PORT
-                .replace('tcp', 'mongodb')
-                .replace('://', `://${dbUsername}:${dbPassword}@`) +
-                `/${dbDatabase}?authenticationMechanism=${dbAuthMechanism}&authSource=${dbAuthSource}`
-        ) || 'mongodb://localhost:27017',
-        analytics: ENV.RUTILUS_ANALYTICS_ADDRESS || `${rutilusAddress}:3000`,
+        database: 'mongodb://localhost:27017',
+        analytics: `${rutilusAddress || 'http://localhost'}:3000`,
     },
 
     // optional (depends on useHttps)
-    httpsKeys: {
-        key:  readKeyFile('key.key'),
-        cert: readKeyFile('cert.crt'),
-        ca:   readKeyFile('ca.crt'),
-    },
-
-
-    heartbeatAddresses: [
-        {
-            title: 'Logger API',
-            address: `${rutilusAddress}`,
-            useHttps: true,
-            logDirectory: '/logs',
-            logFile: 'logger.log',
-            timeSpan: 10000,
-            maxFileSizeBytes: 1000000,
-            crashWhenFail: true,
-        }, {
-            title: 'Analytics API',
-            address: `${rutilusAddress}:3000/ping`,
-            useHttps: true,
-            logDirectory: '/logs',
-            logFile: 'analytics.log',
-            timeSpan: 10000,
-            maxFileSizeBytes: 1000000,
-            crashWhenFail: true,
-        }
-    ],
+    //httpsKeys: {
+    //    key:  readKeyFile('key.key'),
+    //    cert: readKeyFile('cert.crt'),
+    //    ca:   readKeyFile('ca.crt'),
+    //},
 
     errorLog: {
         logger: {

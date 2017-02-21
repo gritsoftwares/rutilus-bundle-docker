@@ -1,6 +1,6 @@
 {
   "name": "rutilus-nodejs-aws",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -28,8 +28,7 @@
     }
   ],
   "dependencies": {
-    "rutilus-apiheartbeat-node": "0.0.7",
-    "rutilus-logger-node": "0.0.3",
-    "rutilus-analytics-node-js": "0.0.5"
+    "rutilus-logger-node": "^0.0",
+    "rutilus-analytics-node-js": "^0.0"
   }
 }
