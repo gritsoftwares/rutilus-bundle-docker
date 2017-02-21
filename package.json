@@ -28,7 +28,8 @@
     }
   ],
   "dependencies": {
-    "rutilus-apiheartbeat-node": "0",
-    "rutilus-logger-node": "0"
+    "rutilus-apiheartbeat-node": "0.0.7",
+    "rutilus-logger-node": "0.0.3",
+    "rutilus-analytics-node-js": "0.0.5"
   }
 }

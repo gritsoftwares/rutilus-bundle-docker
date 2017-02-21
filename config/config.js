@@ -28,7 +28,7 @@ module.exports = {
             ENV.MONGOCONTAINER_PORT &&
             ENV.MONGOCONTAINER_PORT
                 .replace('tcp', 'mongodb')
-                .replace('://', `://${$dbUsername}:${dbPassword}@`) +
+                .replace('://', `://${dbUsername}:${dbPassword}@`) +
                 `/${dbDatabase}?authenticationMechanism=${dbAuthMechanism}&authSource=${dbAuthSource}`
         ) || 'mongodb://localhost:27017',
         analytics: ENV.RUTILUS_ANALYTICS_ADDRESS || `${rutilusAddress}:3000`,
