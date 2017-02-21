@@ -39,7 +39,7 @@ module.exports = {
             },
             file: {
                 level: 'info',
-                file: 'loggerApi.log'
+                file: `/logs/loggerApi.log`
             }
         },
 
@@ -49,7 +49,7 @@ module.exports = {
             },
             file: {
                 level: 'info',
-                file: 'analyticsApi.log'
+                file: `/logs/analyticsApi.log`
             }
         },
     },
