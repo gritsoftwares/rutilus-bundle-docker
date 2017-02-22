@@ -21,7 +21,7 @@ module.exports = {
     },
 
     addresses: {
-        database: 'mongodb://localhost:27017',
+        database: `${ENV.MONGO_PORT}`,
         analytics: `${rutilusAddress || 'http://localhost'}:3000`,
     },
 
