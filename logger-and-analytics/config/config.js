@@ -4,7 +4,7 @@ const ENV = process.env;
 // Rutilus URL (with http:// and without a / at the end)
 // Pulled from the file that the user completing the tutorial
 // will have appended to by now.
-const rutilusAddress = `http://${require('elasticIp')}`;
+const rutilusAddress = `http://${require('./elasticIp')}`;
 
 // Configuration for the database
 const dbUsername = 'dbUsername'; // Username
