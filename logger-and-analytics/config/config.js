@@ -1,7 +1,7 @@
 const fs = require('fs');
 const ENV = process.env;
 
-// Rutilus URL (without a / at the end)
+// Rutilus URL (with http:// and without a / at the end)
 const rutilusAddress = 'http://50.16.136.220';
 
 // Configuration for the database
