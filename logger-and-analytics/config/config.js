@@ -2,7 +2,7 @@ const fs = require('fs');
 const ENV = process.env;
 
 // Rutilus URL (without a / at the end)
-const rutilusAddress = 'http://ec2-54-164-162-192.compute-1.amazonaws.com';
+const rutilusAddress = '50.16.136.220';
 
 // Configuration for the database
 const dbUsername = 'dbUsername'; // Username
