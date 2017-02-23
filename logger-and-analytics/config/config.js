@@ -2,7 +2,9 @@ const fs = require('fs');
 const ENV = process.env;
 
 // Rutilus URL (with http:// and without a / at the end)
-const rutilusAddress = 'http://50.16.136.220';
+// Pulled from the file that the user completing the tutorial
+// will have appended to by now.
+const rutilusAddress = `http://${require('../../elasticIp')}`;
 
 // Configuration for the database
 const dbUsername = 'dbUsername'; // Username
