@@ -2,7 +2,7 @@ const fs = require('fs');
 const ENV = process.env;
 
 // Rutilus URL (without a / at the end)
-const rutilusAddress = 'http://yoursite.com';
+const rutilusAddress = 'http://50.16.136.220';
 
 // Configuration for the database
 const dbUsername = 'dbUsername'; // Username
@@ -21,7 +21,7 @@ module.exports = {
     },
 
     addresses: {
-        database: 'mongodb://localhost:27017',
+        database: `${ENV.MONGO_PORT.replace('tcp://', 'mongodb://')}/production`,
         analytics: `${rutilusAddress || 'http://localhost'}:3000`,
     },
 
