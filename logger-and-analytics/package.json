@@ -29,6 +29,6 @@
   ],
   "dependencies": {
     "rutilus-logger-node": "^0.0",
-    "rutilus-analytics-node-js": "^0.0"
+    "rutilus-analytics-node-js": "0.0.10"
   }
 }
