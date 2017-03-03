@@ -1,6 +1,6 @@
 {
-  "name": "rutilus-nodejs-aws",
-  "version": "0.0.5",
+  "name": "rutilus-nodejs-aws-analytics-module",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,6 @@
     }
   ],
   "dependencies": {
-    "rutilus-logger-node": "^0.0",
     "rutilus-analytics-node-js": "^0.0"
   }
 }
