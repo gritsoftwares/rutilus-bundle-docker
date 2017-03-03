@@ -1,3 +1,8 @@
+/**
+ * This is the master config file for the bundle. It is accessed by
+ * the index.js files in both "logger" and "analytics" top level directories.
+ */
+
 const fs = require('fs');
 const ENV = process.env;
 
@@ -15,7 +20,11 @@ function readKeyFile(file) {
 }
 
 module.exports = {
-    useHttps: false,
+    enableLogger: ENV.RUTILUS_ENABLE_LOGGER || true,
+
+    enableAnalytics: ENV.RUTILUS_ENABLE_ANALYTICS || true,
+
+    useHttps: ENV.RUTILUS_USE_HTTPS || false,
 
     ports: {
         logger: 8080,
