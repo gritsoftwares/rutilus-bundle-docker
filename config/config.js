@@ -12,11 +12,8 @@ const ENV = process.env;
 const rutilusAddress = `http://${require('./elasticIp')}`;
 
 // Configuration for the database
-const dbUsername = ENV.DB_USERNAME; // Username
-const dbPassword = ENV.DB_PASSWORD; // Password
-const dbDatabase = 'production'; // Database
-const dbAuthMechanism = 'DEFAULT'; // Authentication mechanism (default: DEFAULT)
-const dbAuthSource = 'admin'; // Authentication source database
+const dbUsername = 'dbUsername'; // Username
+const dbPassword = 'dbPassword'; // Password
 
 function readKeyFile(file) {
     return fs.readFileSync(`${__dirname}/keys/${file}`).toString();
@@ -35,8 +32,7 @@ module.exports = {
     },
 
     addresses: {
-        database: `mongodb://${dbUsername}:${dbPassword}@`) +
-            `/${dbDatabase}?authenticationMechanism=${dbAuthMechanism}&authSource=${dbAuthSource}`,
+        database: `${ENV.MONGO_PORT.replace('tcp://', 'mongodb://')}/production`,
         analytics: `${rutilusAddress || 'http://localhost'}:3000`,
     },
 
@@ -68,20 +64,6 @@ module.exports = {
             }
         },
     },
-
-    extraInformation: [
-      {
-        {
-          label: 'Car Category',
-          fieldName: 'carCategory',
-          type: 'String',
-          target: 'resources',
-          inAffinityUser: true,
-          inAffinityPersona: true,
-          inAffinityProfile: true
-        }
-      }
-    ],
 
     rateLimits: {
         all: {
