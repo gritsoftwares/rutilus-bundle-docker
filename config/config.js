@@ -65,7 +65,19 @@ module.exports = {
         },
     },
 
-    extraInformation: [],
+    extraInformation: [
+      {
+        {
+          label: 'Car Category',
+          fieldName: 'carCategory',
+          type: 'String',
+          target: 'resources',
+          inAffinityUser: true,
+          inAffinityPersona: true,
+          inAffinityProfile: true
+        }
+      }
+    ],
 
     rateLimits: {
         all: {
