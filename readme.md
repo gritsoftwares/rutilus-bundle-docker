@@ -6,3 +6,7 @@ The structure of this repository must remain such that:
 
 1. each module has its own folder and Dockerfile and is ran as a Docker container (except where modules are combined, ex. the current logger-and-analytics container).
 2. the name of each module's folder does not change, because the setup script depends on it. If changes are made to the names of these folders or to the name of this repository itself (or its organization), the setup script in the AWS tutorial on the official website must be updated accordingly.
+
+# Documentation
+
+See the [main documentation site](https://gmrutilus.github.io/documentation/modules/bundles/aws/introduction/).
