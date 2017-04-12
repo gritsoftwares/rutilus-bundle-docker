@@ -14,7 +14,8 @@ const rutilusAddress = `http://${require('./machineIp')}`;
 module.exports = {
   addresses: {
       database: `${ENV.MONGO_PORT.replace('tcp://', 'mongodb://')}/production`,
-      analytics: `${rutilusAddress || 'http://localhost'}:3000`,
+      analytics: `${rutilusAddress}:3000`,
+      logger: rutilusAddress,
   },
 
   affinityTool: {
