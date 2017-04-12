@@ -1,5 +1,5 @@
 {
-  "name": "rutilus-nodejs-aws-logger-module",
+  "name": "rutilus-bundle-docker-logger-module",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
