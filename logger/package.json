@@ -28,6 +28,6 @@
     }
   ],
   "dependencies": {
-    "rutilus-logger-node": "^0.0"
+    "rutilus-logger-node": "^0"
   }
 }
