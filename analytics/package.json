@@ -28,6 +28,6 @@
     }
   ],
   "dependencies": {
-    "rutilus-analytics-node-js": "^0.0"
+    "rutilus-analytics-node-js": "0.0.43"
   }
 }
