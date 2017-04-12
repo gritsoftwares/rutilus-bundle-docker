@@ -15,6 +15,7 @@ module.exports = {
   addresses: {
       database: `${ENV.MONGO_PORT.replace('tcp://', 'mongodb://')}/production`,
       analytics: `${rutilusAddress || 'http://localhost'}:3000`,
+      logger: `${rutilusAddress || 'http://localhost'}`,
   },
 
   affinityTool: {
